@@ -16,9 +16,12 @@ const filterSlice = createSlice({
                 const tagIndex = state.tags.indexOf(action.payload);
                 state.tags.splice(tagIndex, 1);
             }
+        },
+        searchFilter : (state, action)=>{
+            state.search = action.payload;
         }
     }
 })
 
-export const {tagsFilter} = filterSlice.actions;
+export const {tagsFilter, searchFilter} = filterSlice.actions;
 export default filterSlice.reducer;

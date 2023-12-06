@@ -6,11 +6,13 @@ import { fetchVideos } from "@/app/redux/features/videos/videoSlice";
 
 const Videos = ()=>{
     const {videos, isLoading, isError, error} = useSelector(state=>state.videos)
-    console.log(videos);
+    const {tags, search} = useSelector(state=>state.filters)
     const dispatch = useDispatch()
+
+    //load videos from server
     useEffect(()=>{
-        dispatch(fetchVideos())
-    },[dispatch])
+        dispatch(fetchVideos({tags, search}))
+    },[dispatch,tags, search])
     return (
         <section class="pt-12">
             <section class="pt-12">
@@ -20,7 +22,7 @@ const Videos = ()=>{
                     {/* <!-- single video --> */}
                 {
                     videos.map((video)=>{
-                        const {id ,title, avatar, author, views, date, thumbnail, description, duration} = video
+                        const {id ,title, avatar, author, views, date, thumbnail, duration} = video
                         return <div
                         key ={id}
                         class="col-span-12 sm:col-span-6 md:col-span-3 duration-300 hover:scale-[1.03]"
