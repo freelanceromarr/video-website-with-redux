@@ -1,16 +1,32 @@
-const RelatedVideos = () => {
+'use client'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRelatedVideos } from "../redux/features/relatedVideo/relatedVideosSlice";
+
+const RelatedVideos = ({currentVideoId ,tags }) => {
+    const dispatch = useDispatch();
+    const {relatedVideos, isLoading, isError, error} = useSelector(state=>state.relatedVideos);
+    console.log(relatedVideos);
+    // fetching related videos on loading
+    useEffect(()=>{
+        console.log(currentVideoId);
+        dispatch(fetchRelatedVideos({tags, id:currentVideoId}))
+    },[dispatch,tags, currentVideoId])
     return (
         <div
                         class="col-span-full lg:col-auto max-h-[570px] overflow-y-auto"
                     >
                         {/* <!-- single related video --> */}
-                        <div class="w-full flex flex-row gap-2 mb-4">
+                        {
+                        relatedVideos.map(relatedVideo=>{
+                            const {id,title, date, thumbnail, duration, views, author } = relatedVideo;
+                            return <div class="w-full flex flex-row gap-2 mb-4">
                             <div
                                 class="relative w-[168px] h-[94px] flex-none duration-300 hover:scale-[1.03]"
                             >
-                                <a href="video.html">
+                                <a href={`/video/${id}`}>
                                     <img
-                                        src="https://i3.ytimg.com/vi/6O4s7v28nlw/maxresdefault.jpg"
+                                        src={thumbnail}
                                         class="object-cover"
                                         alt="Some video title"
                                     />
@@ -18,29 +34,32 @@ const RelatedVideos = () => {
                                 <p
                                     class="absolute right-2 bottom-2 bg-gray-900 text-gray-100 text-xs px-1 py"
                                 >
-                                    12:10
+                                    {duration} {id}
                                 </p>
                             </div>
 
                             <div class="flex flex-col w-full">
-                                <a href="#">
+                                <a href={`/video/${id}`}>
                                     <p
                                         class="text-slate-900 text-sm font-semibold"
                                     >
-                                        Some video title
+                                        {title}
                                     </p>
                                 </a>
                                 <a
                                     class="text-gray-400 text-xs mt-2 hover:text-gray-600"
-                                    href="#"
+                                    href={`/video/${id}`}
                                 >
-                                    Learn with Sumit
+                                    {author}
                                 </a>
                                 <p class="text-gray-400 text-xs mt-1">
-                                    100K views . 23 Oct 2022
+                                    {views} views . {date}
                                 </p>
                             </div>
                         </div>
+                        })
+                        }
+                        
                     </div>
     )
 }

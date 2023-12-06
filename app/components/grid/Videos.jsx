@@ -20,14 +20,14 @@ const Videos = ()=>{
                     {/* <!-- single video --> */}
                 {
                     videos.map((video)=>{
-                        const {id ,title, author, views, date, thumbnail, description, duration} = video
+                        const {id ,title, avatar, author, views, date, thumbnail, description, duration} = video
                         return <div
                         key ={id}
                         class="col-span-12 sm:col-span-6 md:col-span-3 duration-300 hover:scale-[1.03]"
                     >
                         <div class="w-full flex flex-col">
                             <div class="relative">
-                                <a href="video.html">
+                                <a href ={`/video/${id}`}>
                                     <img
                                         src={thumbnail}
                                         class="w-full h-auto"
@@ -46,7 +46,7 @@ const Videos = ()=>{
                             <div class="flex flex-row mt-2 gap-2">
                                 <a href="#" class="shrink-0">
                                     <img
-                                        src="https://avatars.githubusercontent.com/u/73503432?v=4"
+                                        src={avatar}
                                         class="rounded-full h-6 w-6"
                                         alt="Learn with Sumit"
                                     />

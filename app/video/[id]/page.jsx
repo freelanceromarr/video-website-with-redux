@@ -1,6 +1,18 @@
+'use client'
 import RelatedVideos from "@/app/components/relatedVideos";
+import { fetchVideo } from "@/app/redux/features/video/videoSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const SingleVideo = ()=>{
+const SingleVideo = ({params})=>{
+    
+   const dispatch = useDispatch()
+   const {video} = useSelector(state=> state.video)
+    const {id, title, description, author, date, duration, likes, unlikes, link, thumbnail, tags,  } = video;
+    useEffect(()=>{
+        dispatch(fetchVideo(params.id))
+    },[dispatch])
+    console.log(tags);
     return (
         <section class="pt-6 pb-20">
             <div class="mx-auto max-w-7xl px-2 pb-20 min-h-[400px]">
@@ -10,8 +22,8 @@ const SingleVideo = ()=>{
                         <iframe
                             width="100%"
                             class="aspect-video"
-                            src="https://www.youtube-nocookie.com/embed/6O4s7v28nlw"
-                            title="Some video title"
+                            src= {link}
+                            title={title}
                             frameborder=""
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen
@@ -22,7 +34,7 @@ const SingleVideo = ()=>{
                             <h1
                                 class="text-lg font-semibold tracking-tight text-slate-800"
                             >
-                                Some video title
+                                {title}
                             </h1>
                             <div
                                 class="pb-4 flex items-center space-between border-b"
@@ -30,7 +42,7 @@ const SingleVideo = ()=>{
                                 <h2
                                     class="text-sm leading-[1.7142857] text-slate-600 w-full"
                                 >
-                                    Uploaded on 23 Nov 2022
+                                    Uploaded on {date}
                                 </h2>
 
                                 {/* <!-- like/unlike --> */}
@@ -46,7 +58,7 @@ const SingleVideo = ()=>{
                                         <div
                                             class="text-sm leading-[1.7142857] text-slate-600"
                                         >
-                                            100K
+                                            {likes}
                                         </div>
                                     </div>
                                     <div class="flex gap-1">
@@ -60,7 +72,7 @@ const SingleVideo = ()=>{
                                         <div
                                             class="text-sm leading-[1.7142857] text-slate-600"
                                         >
-                                            100K
+                                            {unlikes}
                                         </div>
                                     </div>
                                 </div>
@@ -69,13 +81,13 @@ const SingleVideo = ()=>{
                             <div
                                 class="mt-4 text-sm text-[#334155] dark:text-slate-400"
                             >
-                                Some video description here
+                                {description}
                             </div>
                         </div>
                     </div>
 
                     {/* <!-- related videos --> */}
-                    <RelatedVideos/>
+                    <RelatedVideos  tags={tags} currentVideoId = {id}/>
                 </div>
             </div>
         </section>
